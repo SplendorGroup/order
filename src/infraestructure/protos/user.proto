@@ -1,0 +1,130 @@
+syntax = "proto3";
+
+package user;
+
+message AuthUser {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  bool email_verify = 4;
+  repeated string roles = 5;
+  repeated string permissions = 6;
+}
+
+message Entity {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+    bool email_verify = 4;
+    string created_at = 5;
+    string updated_at = 6;
+}
+
+message FindAllDTO {
+  optional string id = 1;
+  optional string name = 2;
+  optional string email = 3;
+  optional string page = 4;
+  optional string start_date = 5;
+  optional string end_date = 6;
+}
+
+message FindAllRequest {
+    optional FindAllDTO query  = 1;
+    optional AuthUser user = 2;
+}
+
+message FindAllResponse {
+  int32 total = 1;
+  int32 page = 2;
+  int32 pages = 3;
+  int32 per_page = 4;
+  int32 in_page = 5;
+  repeated Entity data = 6;
+}
+
+message FindOneDTO {
+    string id = 1;
+}
+
+message FindOneRequest {
+    FindOneDTO params = 1;
+    optional AuthUser user = 2;
+}
+
+message FindOneResponse {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+    bool email_verify = 4;
+    string created_at = 5;
+    string updated_at = 6;
+    repeated string roles = 7;
+    repeated string permissions = 8;
+}
+
+message CreateDTO {
+    string name = 1;
+    string email = 2;
+    bool email_verify = 3;
+    bool active = 4;  
+}
+
+message CreateRequest {
+    CreateDTO body = 1;
+    optional AuthUser user = 2;
+}
+
+message UpdateDTO {
+    string name = 1;
+    string email = 2;
+    bool email_verify = 3;
+    bool active = 4;  
+    optional AuthUser user = 5;
+}
+
+message UpdateParamDTO {
+    string id = 1;
+}
+
+message UpdateRequest {
+    UpdateParamDTO params = 1;
+    UpdateDTO body = 2;
+    optional AuthUser user = 3;
+}
+
+message DeleteDTO {
+    string id = 1;
+}
+
+message DeleteRequest {
+    DeleteDTO params = 1;
+    optional AuthUser user = 2;
+}
+
+message DeleteResponse {
+  
+}
+
+message SyncRoleWithUserDTO {
+    string user_id = 1;
+    string role_id = 2;
+}
+
+message SyncRoleWithUserRequest {
+    SyncRoleWithUserDTO body = 1;
+    optional AuthUser user = 2;
+}
+
+message SyncRoleWithUserResponse {
+
+}
+
+service UserService {
+    rpc FindAll(FindAllRequest) returns (FindAllResponse);
+    rpc FindOne(FindOneRequest) returns (FindOneResponse);
+    rpc Create(CreateRequest) returns (Entity);
+    rpc Update(UpdateRequest) returns (Entity);
+    rpc Delete(DeleteRequest) returns (DeleteResponse);
+    rpc SyncRoleWithUser(SyncRoleWithUserRequest) returns (SyncRoleWithUserResponse);
+}

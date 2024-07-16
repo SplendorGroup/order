@@ -1,0 +1,1 @@
+export type OrderStatus = 'PENDING'| 'RESERVED' | 'PAYMENT_PENDING' | 'PAID' | 'CANCELLED' | 'COMPLETED'

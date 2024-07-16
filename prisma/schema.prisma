@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model order {
+  id             String       @id @default(uuid()) @map("_id")
+  vehicle_id     String       @map("vehicle_id")
+  user_id        String       @map("user_id") @unique
+  status         order_status @default(PENDING)
+  payment_code   String?      @map("payment_code")
+  created_at     DateTime     @default(now()) @map("created_at")
+  updated_at     DateTime     @updatedAt @map("updated_at")
+}
+
+enum order_status {
+  PENDING
+  RESERVED
+  PAYMENT_PENDING
+  PAID
+  CANCELLED
+  COMPLETED
+}

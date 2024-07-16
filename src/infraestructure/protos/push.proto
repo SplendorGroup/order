@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package push;
+
+message AuthUser {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  bool email_verify = 4;
+  repeated string roles = 5;
+  repeated string permissions = 6;
+}
+
+message SendPushRequest {
+  string user_id = 1;
+  string token = 2;
+  string title = 3;
+  string body = 4;
+}
+
+message SendPushResponse {
+ 
+}
+
+message RegisterTokenDTO {
+  string token = 1;
+}
+
+message RegisterTokenRequest {
+  optional RegisterTokenDTO body = 1;
+  optional AuthUser user = 2;
+}
+
+message RegisterTokenResponse {
+
+}
+
+service PushService {
+  rpc RegisterToken (RegisterTokenRequest) returns (RegisterTokenResponse);
+  rpc SendPush (SendPushRequest) returns (SendPushResponse);
+}

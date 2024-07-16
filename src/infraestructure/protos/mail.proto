@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package mail;
+
+message SendSingleRequest {
+  string user_id = 1;
+  string name = 2;
+  string to = 3;
+  string subject = 4;
+  optional string text = 5;
+  optional EmailOptions options = 6;
+}
+
+message SendSingleResponse {
+
+}
+
+message SendMassRequest {
+  string user_id = 1;
+  string name = 2;
+  repeated string to = 3;
+  string subject = 4;
+  optional string text = 5;
+  optional EmailOptions options = 6;
+}
+
+message SendMassResponse {
+
+}
+
+message Variable {
+  string name = 1;
+  string value = 2;
+}
+
+message EmailOptions {
+  optional string template = 1;
+  optional string html = 2;
+  repeated Variable variables = 3;
+}
+
+service MailService {
+  rpc SendSingle (SendSingleRequest) returns (SendSingleResponse);
+  rpc SendMass (SendMassRequest) returns (SendMassResponse);
+}

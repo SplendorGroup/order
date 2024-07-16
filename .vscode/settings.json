@@ -1,0 +1,21 @@
+{
+    "material-icon-theme.folders.associations": {
+        "app": "app",
+        "application": "app",
+        "domain": "class",
+        "entities": "class",
+        "infra": "config",
+        "filters": "pipe",
+        "infraestructure": "config",
+        "presentation": "global",
+        "repositories": "pipe",
+        "dtos": "class",
+        "usecases": "stack",
+        "factories": "tools",
+        "mappers": "functions",
+        "values-object": "Gh-workflows",
+        "user": "shader",
+        "gateways": "pipe",
+        "interceptors": "context"
+    },
+}

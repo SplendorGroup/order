@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+          envFrom:
+            - configMapRef:
+                name: grpc-config
+          env:
+            - name: TLS_CERT
+              valueFrom:
+                secretKeyRef:
+                  name: tls-secret
+                  key: tls.crt
+            - name: TLS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: tls-secret
+                  key: tls.key
+            - name: TLS_CA
+              valueFrom:
+                secretKeyRef:
+                  name: tls-secret
+                  key: tls.ca
+          volumeMounts:
+            - name: tls
+              mountPath: "/etc/tls"
+              readOnly: true
+      volumes:
+        - name: tls
+          secret:
+            secretName: tls-secret

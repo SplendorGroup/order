@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package order;
+
+message AuthUser {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  bool email_verify = 4;
+  repeated string roles = 5;
+  repeated string permissions = 6;
+}
+
+message OrderEntity {
+  string id = 1;
+  string vehicle_id = 2;
+  string user_id = 3;
+  string status = 4;
+  string payment_code = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message FindAllOrderDTO {
+  optional string id = 1;
+  optional string vehicle_id = 2;
+  optional string user_id = 3;
+  optional string start_date = 4;
+  optional string end_date = 5;
+  optional int32 page = 6;
+}
+
+message FindAllOrderRequest {
+  optional FindAllOrderDTO query = 1;
+  optional AuthUser user = 2;
+}
+
+message FindAllOrderResponse {
+  int32 total = 1;
+  int32 page = 2;
+  int32 pages = 3;
+  int32 per_page = 4;
+  int32 in_page = 5;
+  repeated OrderEntity data = 6;
+}
+
+message FindOneOrderDTO {
+  string id = 1;
+}
+
+message FindOneOrderRequest {
+  FindOneOrderDTO params = 1;
+  optional AuthUser user = 2;
+}
+
+message FindOneOrderResponse {
+  string id = 1;
+  string vehicle_id = 2;
+  string user_id = 3;
+  string status = 4;
+  string payment_code = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message CreateOrderDTO {
+  string vehicle_id = 1;
+  string status = 3;
+  optional string payment_code = 4;
+}
+
+message CreateOrderRequest {
+  CreateOrderDTO body = 1;
+  optional AuthUser user = 2;
+}
+
+message UpdateOrderDTO {
+  optional string vehicle_id = 1;
+  optional string status = 3;
+  optional string payment_code = 4;
+}
+
+message UpdateOrderParamDTO {
+  string id = 1;
+}
+
+message UpdateOrderRequest {
+  UpdateOrderParamDTO params = 1;
+  UpdateOrderDTO body = 2;
+  optional AuthUser user = 3;
+}
+
+message DeleteOrderDTO {
+  string id = 1;
+}
+
+message DeleteOrderRequest {
+  DeleteOrderDTO params = 1;
+  optional AuthUser user = 2;
+}
+
+message DeleteOrderResponse {}
+
+service OrderService {
+  rpc CreateOrder(CreateOrderRequest) returns (OrderEntity);
+  rpc UpdateOrder(UpdateOrderRequest) returns (OrderEntity);
+  rpc GetOrders(FindAllOrderRequest) returns (FindAllOrderResponse);
+  rpc GetOrderById(FindOneOrderRequest) returns (FindOneOrderResponse);
+  rpc DeleteOrder(DeleteOrderRequest) returns (DeleteOrderResponse);
+}
